@@ -1,0 +1,107 @@
+/* CDL System network site (v3) — components, in the same visual language as redesign.css (loaded before this file):
+   rounded cards with soft shadows, frosted header, dark bands with a dot grid, Inter Tight headings.
+   Brand: Signal Red #F62817, Asphalt #141516, Concrete #EDEAE5. Hero and footer particle scripts untouched. */
+
+:root { --chalk: #EDEAE5; --ink: #141516; }
+html { scroll-padding-top: calc(var(--header-h) + 16px); }
+.axis { display: none; }
+h1 { font-family: var(--font-display); font-size: clamp(36px, 4.8vw, 60px); line-height: 1.04; letter-spacing: -0.028em; font-weight: 800; max-width: 20ch; }
+.display { font-size: clamp(38px, 5.4vw, 66px); }
+h3 { font-family: var(--font-display); font-size: 22px; line-height: 1.2; font-weight: 800; letter-spacing: -0.015em; }
+.lead { color: rgba(20, 21, 22, 0.8); max-width: 58ch; }
+.muted { color: var(--text-soft); font-weight: 400; }
+.hero__meta::before { display: none; }
+.menu, .nav__toggle { display: none; }
+.drawer__cta { display: flex; flex-wrap: wrap; gap: 10px; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px 14px; align-items: center; margin: 28px 0 0; }
+.page-head .actions { margin-top: 24px; }
+.hero--particles .hero__copy { max-width: 600px; }
+.hero--particles .hero__copy .lead { max-width: 34ch; }
+.section > .container > .kicker { margin-bottom: 14px; }
+.section > .container > h2 { margin-bottom: 18px; }
+.section > .container > .measure { margin-bottom: 36px; }
+.split { gap: 32px 48px; }
+.split > div > .kicker { margin-bottom: 14px; }
+.split > div > h2 { margin-bottom: 0; }
+
+/* ---------- cards: the floating-card look, rising into place as they enter ---------- */
+.cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+.cards--3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.cards--4 { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.cards--2 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.card { position: relative; margin: 0; padding: 28px 28px 30px; border: 1px solid var(--card-line); border-radius: var(--r-l); background: #fff; display: flex; flex-direction: column; gap: 12px; overflow: hidden;
+  box-shadow: var(--card-hi), 0 24px 44px -34px rgba(17, 18, 16, 0.45); transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out), border-color 0.35s; }
+.card::before { content: ""; position: absolute; left: 0; top: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--signal), transparent 70%); transform: scaleX(0); transform-origin: left; transition: transform 0.5s var(--ease-out); }
+.card:hover { transform: translateY(-5px); border-color: rgba(246, 40, 23, 0.35); box-shadow: var(--card-hi), 0 34px 54px -30px rgba(17, 18, 16, 0.5); }
+.card:hover::before { transform: scaleX(1); }
+.card h3 { margin: 0; }
+.card p { margin: 0; color: rgba(37, 39, 36, 0.8); font-size: 16.5px; line-height: 1.5; }
+.card .btn { align-self: flex-start; margin-top: auto; }
+.card__eyebrow { margin: 0 0 2px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--signal); }
+.card--flat { background: rgba(255, 255, 255, 0.6); }
+/* rise-and-tilt entrance (rise.js adds .is-up) */
+.js .rise { perspective: 1200px; }
+.js .rise > * { opacity: 0; transform: translateY(28px) rotateX(9deg); transition: opacity 0.6s var(--ease-out), transform 0.7s var(--ease-out); transition-delay: calc(var(--i, 0) * 90ms); }
+.js .rise.is-up > * { opacity: 1; transform: none; }
+
+/* three steps as cards */
+.steps3 { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.steps3--5 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.steps3 li { margin: 0; padding: 26px 26px 28px; border: 1px solid var(--card-line); border-radius: var(--r-l); background: #fff; box-shadow: var(--card-hi), 0 24px 44px -34px rgba(17, 18, 16, 0.45); display: grid; gap: 10px; align-content: start; }
+.steps3__n { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: rgba(246, 40, 23, 0.1); color: var(--signal); font-family: var(--font-mono); font-size: 13px; font-weight: 600; }
+.steps3 h3 { margin: 6px 0 0; }
+.steps3 p { margin: 0; color: rgba(37, 39, 36, 0.8); font-size: 16.5px; line-height: 1.5; }
+.steps3 + p { margin-top: 28px; }
+
+/* facts list */
+.facts { margin: 0; }
+.facts li { padding: 12px 0; font-size: 18px; line-height: 1.5; }
+
+/* why section: text + benefit cards on the left, the particle symbol re-forming on the right */
+#rules .rules-grid > div:first-child { max-width: 640px; }
+.rules.cards { max-width: 640px; border-top: 0; margin-top: 28px; counter-reset: none; }
+.rules.cards li { display: flex; padding: 22px 22px 24px; border-bottom: 1px solid var(--card-line); font-size: inherit; line-height: inherit; }
+.rules.cards li::before { display: none; }
+.rules.cards h3 { font-size: 19px; }
+.rules__logo .logo-slot img { width: 100%; height: 100%; }
+
+/* contact */
+.kv--contact { font-size: 18px; gap: 8px 20px; margin: 20px 0 28px; }
+.form-facts li a { font-weight: 500; }
+
+/* about symbol box */
+.crop img { transition: none; }
+.crop:hover img { transform: none; }
+
+/* legal */
+.prose h2 { font-size: 24px; }
+.prose table { font-size: 15px; }
+
+/* 404 */
+.notfound { padding: 96px 0; }
+.notfound ul { padding-left: 1.2em; }
+
+/* footer: links column (particle logo markup untouched) */
+.footer__nav { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; }
+.footer__nav li { margin: 0; }
+.footer__nav a { font-size: 15px; font-weight: 500; text-decoration: none; }
+.footer__nav a:hover { color: var(--signal); }
+.footer__meta-grid { grid-template-columns: 1.6fr 1.3fr 1fr; }
+@media (max-width: 767px) { .footer__nav { grid-template-columns: 1fr; } }
+
+/* closing action: two buttons */
+.cta .actions { margin-top: 8px; }
+.cta .btn--ghost { color: var(--chalk); border-color: rgba(237, 234, 229, 0.6); }
+.cta .btn--ghost:hover { background: var(--chalk); color: var(--ink); }
+
+/* ---------- one box language for every panel on the site ---------- */
+:root { --box-r: 16px; --r-l: 16px; --r-m: 12px; }
+.card, .steps3 li, .hw__ledger, .hire__card, .hire__ledger, .ds__card, .ds__card--table, .ds__stack .ds__layer, .crop, .nots, .proof__block, .form__status { border-radius: var(--box-r); }
+.hire__card, .hire__ledger, .hw__ledger, .ds__card:not(.ds__card--light) { background: linear-gradient(160deg, #2b2d2a 0%, #1a1c19 100%); border: 1px solid rgba(242, 240, 233, 0.13); }
+.hire__card, .hire__ledger, .hw__ledger { box-shadow: 0 40px 70px -34px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.06); }
+.tile > span, .hire input[type="text"], .hire input[type="search"], .hire input[type="tel"], .hire input[type="email"], .hire input[type="date"], .hire select, .hire textarea, .consent, .status, .fm__picked, .fm__manual { border-radius: 12px; }
+.hire__top, .hw__lh, .hire__lh, .ds__bar { border-bottom: 1px solid rgba(242, 240, 233, 0.13); }
+.hire__lf, .hw__lf { border-top: 1px solid rgba(242, 240, 233, 0.13); }
+.ds__cap h2 { font-family: var(--font-display); font-size: clamp(24px, 2.4vw, 30px); letter-spacing: -0.02em; }
+
+.wt__blk { border-radius: var(--box-r); }

@@ -1,0 +1,103 @@
+/* CDL System — pinned step walkthrough (v3), the same scene as the previous "How it works" page.
+   Markup: section.hw[data-walk] > .container.steps-wrap > (div > .sticky side note) + ol.steps > li > div(h2, p.who, p, dl.records, links).
+   At >= 1000 px with .js, walk.js adds .is-pin: a dark pinned scene with a step rail on the left, the current step in the middle and a
+   ledger on the right that fills as the steps pass. Narrower or reduced motion: the stacked timeline from redesign.css. */
+
+.hw { position: relative; z-index: 2; }
+.hw__k, .hw__num, .hw__rail, .hw__ledger, .hw__glow, .hw__hint { display: none; }
+
+.hw.is-pin {
+  --n: 3;
+  --hw-line: rgba(242, 240, 233, 0.14); --hw-line2: rgba(242, 240, 233, 0.32); --hw-dim: rgba(242, 240, 233, 0.7);
+  padding: 0; height: calc(100vh + var(--n) * 62vh); height: calc(100svh + var(--n) * 62svh);
+  background: var(--ink-grad); color: var(--chalk); border-top: 0;
+  --text: var(--chalk); --text-strong: #fff; --text-soft: var(--hw-dim); --rule: var(--hw-line2); --rule-soft: var(--hw-line); --rule-faint: var(--hw-line);
+}
+.hw.is-pin::before { content: ""; position: absolute; inset: 0; background-image: var(--dot-dark); background-size: 28px 28px; -webkit-mask-image: linear-gradient(#000, transparent 75%); mask-image: linear-gradient(#000, transparent 75%); pointer-events: none; }
+.hw.is-pin .steps-wrap {
+  position: sticky; top: var(--header-h); z-index: 2;
+  width: min(100% - 48px, 1320px); height: calc(100vh - var(--header-h)); height: calc(100svh - var(--header-h));
+  display: grid; grid-template-columns: 250px minmax(0, 1fr) 350px; gap: 44px; align-items: stretch; padding: 38px 0 34px;
+}
+.hw.is-pin .steps-wrap > * { min-height: 0; }
+.hw.is-pin .hw__glow { display: block; position: sticky; top: var(--header-h); height: 0; width: 0; margin: 0; }
+.hw.is-pin .hw__glow i { position: absolute; left: 0; top: 0; width: 760px; height: 760px; margin: -380px 0 0 -380px; border-radius: 50%; background: radial-gradient(closest-side, rgba(246, 40, 23, 0.2), transparent); transition: transform 1.2s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.8s; }
+.hw.is-pin[data-money] .hw__glow i { background: radial-gradient(closest-side, rgba(246, 40, 23, 0.34), transparent); }
+
+/* left: side note + rail */
+.hw.is-pin .steps-wrap > div:first-child { display: flex; flex-direction: column; }
+.hw.is-pin .sticky { position: static; }
+.hw.is-pin .sticky .kicker { color: var(--stone); }
+.hw.is-pin .sticky .kv { font-size: 14px !important; gap: 4px 14px; }
+.hw.is-pin .sticky .kv dt { color: var(--stone); }
+.hw.is-pin .sticky .small, .hw.is-pin .sticky h2, .hw.is-pin .sticky p:not(.kicker) { display: none; }
+.hw__rail { flex-direction: column; justify-content: space-between; flex: 1; min-height: 0; margin: 22px 0 0; padding: 0; list-style: none; position: relative; }
+.hw.is-pin .hw__rail { display: flex; }
+.hw__rail::before { content: ""; position: absolute; left: 13px; top: 14px; bottom: 14px; width: 2px; border-radius: 2px; background: var(--hw-line); }
+.hw__rail::after { content: ""; position: absolute; left: 13px; top: 14px; bottom: 14px; width: 2px; border-radius: 2px; background: var(--firebrick); transform-origin: top; transform: scaleY(var(--fill, 0)); box-shadow: 0 0 10px rgba(246, 40, 23, 0.6); transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.hw__rail li { margin: 0; position: relative; z-index: 1; }
+.hw__rail button { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: center; width: 100%; padding: 2px 0; background: none; border: 0; color: rgba(242, 240, 233, 0.5); font: 500 14px/1.25 var(--font-sans); text-align: left; cursor: pointer; transition: color 0.3s; }
+.hw__rail .d { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #151714; border: 1.5px solid var(--hw-line2); font: 600 10px/1 var(--font-mono); transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1), background 0.3s, border-color 0.3s, box-shadow 0.4s; }
+.hw__rail .money .d { border-color: rgba(246, 40, 23, 0.7); }
+.hw__rail .done .d { background: var(--firebrick); border-color: var(--firebrick); color: #fff; }
+.hw__rail .on .d { background: var(--chalk); border-color: var(--chalk); color: var(--ink); transform: scale(1.18); box-shadow: 0 0 0 5px rgba(246, 40, 23, 0.25), 0 0 24px rgba(246, 40, 23, 0.5); }
+.hw__rail .on button, .hw__rail .done button { color: var(--chalk); }
+.hw__rail .on button { font-weight: 700; }
+.hw__rail button:hover { color: #fff; }
+
+/* middle: the current step */
+.hw.is-pin .steps { position: relative; margin: 0; padding: 0; counter-reset: none; }
+.hw.is-pin .steps::before { display: none; }
+.hw.is-pin .steps > li { position: absolute; inset: 0; display: block; padding: 0; margin: 0; pointer-events: none; }
+.hw.is-pin .steps > li::before { display: none; }
+.hw.is-pin .steps > li.on { pointer-events: auto; }
+.hw.is-pin .steps > li > div { height: 100%; display: flex; flex-direction: column; justify-content: center; max-width: 720px; position: relative; }
+.hw.is-pin .steps > li > div > * { opacity: 0; transform: translateY(26px); filter: blur(6px); transition: opacity 0.55s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), filter 0.55s; }
+.hw.is-pin .steps > li.past > div > * { transform: translateY(-26px); }
+.hw.is-pin .steps > li.on > div > * { opacity: 1; transform: none; filter: none; }
+.hw.is-pin .steps > li.on > div > *:nth-child(2) { transition-delay: 0.05s; }
+.hw.is-pin .steps > li.on > div > *:nth-child(3) { transition-delay: 0.12s; }
+.hw.is-pin .steps > li.on > div > *:nth-child(4) { transition-delay: 0.19s; }
+.hw.is-pin .steps > li.on > div > *:nth-child(5) { transition-delay: 0.26s; }
+.hw.is-pin .steps > li.on > div > *:nth-child(6) { transition-delay: 0.33s; }
+.hw.is-pin .steps .records { display: none; }
+.hw.is-pin .steps h2 { font-family: var(--font-display); font-size: clamp(34px, 3.5vw, 52px); line-height: 1.04; letter-spacing: -0.028em; font-weight: 800; margin: 14px 0 16px; color: #fff; text-wrap: balance; }
+.hw.is-pin .steps .who { display: inline-flex; align-self: flex-start; align-items: center; gap: 8px; margin: 0 0 4px; padding: 5px 12px; border: 1px solid var(--hw-line2); border-radius: 999px; font-family: var(--font-mono); font-size: 12px; color: var(--chalk); background: rgba(255, 255, 255, 0.04); }
+.hw.is-pin .steps p { font-size: 18px; line-height: 1.62; color: var(--hw-dim); max-width: 60ch; }
+.hw.is-pin .steps a { color: var(--chalk); }
+.hw.is-pin .steps .link-arrow { margin-right: 14px; }
+.hw.is-pin .steps > li.is-money .who { border-color: rgba(246, 40, 23, 0.7); background: rgba(246, 40, 23, 0.1); }
+.hw.is-pin .steps .btn { align-self: flex-start; margin-top: 8px; }
+.hw__k { align-items: center; gap: 12px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; color: var(--stone); }
+.hw__k b { color: var(--firebrick); font-weight: 600; }
+.hw__k i { flex: 0 0 56px; height: 1px; background: var(--hw-line2); }
+.hw.is-pin .hw__k { display: flex; }
+.hw__num { position: absolute; z-index: 0; left: 294px; width: calc(100% - 250px - 350px - 88px); text-align: right; top: 6px; font-family: var(--font-display); font-weight: 800; font-size: clamp(180px, 20vw, 300px); line-height: 1; letter-spacing: -0.06em; color: transparent; -webkit-text-stroke: 1.5px rgba(242, 240, 233, 0.17); pointer-events: none; overflow: hidden; height: 1em; }
+.hw.is-pin .hw__num { display: block; }
+.hw__num span { display: block; transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.5s; }
+.hw__num.swap span { transform: translateY(-30%); opacity: 0; }
+.hw.is-pin .steps-wrap > .steps { z-index: 1; }
+
+/* right: the ledger */
+.hw.is-pin .hw__ledger { display: flex; flex-direction: column; border: 1px solid var(--hw-line); border-radius: 18px; overflow: hidden; background: linear-gradient(160deg, #2b2d2a 0%, #1a1c19 100%); box-shadow: 0 40px 70px -34px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.06); z-index: 1; }
+.hw__lh { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid var(--hw-line); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; color: var(--stone); }
+.hw__lh b { color: var(--chalk); font-weight: 500; }
+.hw__ll { list-style: none; margin: 0; padding: 4px 0 0; flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column-reverse; justify-content: flex-end; -webkit-mask-image: linear-gradient(#000 78%, transparent); mask-image: linear-gradient(#000 78%, transparent); }
+.hw__e { flex: none; display: grid; grid-template-columns: 30px 1fr; gap: 10px; margin: 0; padding: 0 18px; max-height: 0; opacity: 0; overflow: hidden; border-bottom: 1px solid transparent; transform: translateY(-12px); transition: max-height 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.5s, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), padding 0.5s, background 0.4s; position: relative; }
+.hw__e.in { max-height: 150px; opacity: 0.55; transform: none; padding: 12px 18px; border-bottom-color: var(--hw-line); }
+.hw__e.now { opacity: 1; background: rgba(246, 40, 23, 0.08); }
+.hw__e.now::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--firebrick); }
+.hw__e .n { font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--firebrick); padding-top: 2px; }
+.hw__e b { display: block; font-size: 13.5px; font-weight: 600; line-height: 1.25; color: var(--chalk); margin-bottom: 3px; }
+.hw__e p { margin: 0 !important; font-size: 12.5px !important; line-height: 1.42; color: var(--hw-dim) !important; }
+.hw__lf { margin: 0; padding: 12px 18px; border-top: 1px solid var(--hw-line); font-size: 12px; line-height: 1.4; color: var(--stone); }
+
+.hw__hint { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone); transition: opacity 0.4s; pointer-events: none; }
+.hw.is-pin .hw__hint { display: flex; flex-direction: column; align-items: center; gap: 8px; position: sticky; top: calc(100svh - 64px); height: 0; width: max-content; margin: 0 auto; }
+.hw__hint::after { content: ""; width: 1px; height: 22px; background: linear-gradient(var(--chalk), transparent); animation: hw-drop 1.6s ease-in-out infinite; }
+@keyframes hw-drop { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+.hw.is-pin.moved .hw__hint { opacity: 0; }
+
+/* stacked fallback: the step title row and side note */
+.hw:not(.is-pin) .steps h2 { font-size: var(--fs-h3); }
+.hw:not(.is-pin) .steps-wrap .sticky h2 { font-size: clamp(26px, 3vw, 36px); margin-bottom: 12px; }

@@ -1,0 +1,10 @@
+{
+  "name": "cdl-system-site",
+  "version": "0.1.0",
+  "private": true,
+  "description": "cdlsystem.com marketing site (static HTML/CSS/JS). Deployed to Vercel from GitHub.",
+  "scripts": {
+    "dev": "npx --yes serve public -l 3000",
+    "check": "node scripts/check.mjs"
+  }
+}

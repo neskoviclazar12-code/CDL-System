@@ -1,0 +1,220 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "outputDirectory": "public",
+  "cleanUrls": false,
+  "trailingSlash": true,
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/privacy",
+      "destination": "/privacy-policy/",
+      "permanent": true
+    },
+    {
+      "source": "/terms",
+      "destination": "/terms-of-service/",
+      "permanent": true
+    },
+    {
+      "source": "/compare/spreadsheets/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/compare/spreadsheets",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/cookies/",
+      "destination": "/privacy-policy/",
+      "permanent": true
+    },
+    {
+      "source": "/cookies",
+      "destination": "/privacy-policy/",
+      "permanent": true
+    },
+    {
+      "source": "/demo/",
+      "destination": "/for-carriers/",
+      "permanent": true
+    },
+    {
+      "source": "/demo",
+      "destination": "/for-carriers/",
+      "permanent": true
+    },
+    {
+      "source": "/demo/thank-you/",
+      "destination": "/for-carriers/",
+      "permanent": true
+    },
+    {
+      "source": "/demo/thank-you",
+      "destination": "/for-carriers/",
+      "permanent": true
+    },
+    {
+      "source": "/features/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/features",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/features/application-tracking/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/features/application-tracking",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/features/carrier-offer-management/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/features/carrier-offer-management",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/features/driver-documents/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/features/driver-documents",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/features/driver-lead-management/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/features/driver-lead-management",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/features/driver-offer-matching/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/features/driver-offer-matching",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/features/follow-ups/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/features/follow-ups",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/features/recruiting-fee-billing/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/features/recruiting-fee-billing",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/features/reports/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/features/reports",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/features/team-management/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/features/team-management",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/glossary/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/glossary",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/privacy/",
+      "destination": "/privacy-policy/",
+      "permanent": true
+    },
+    {
+      "source": "/security/",
+      "destination": "/how-it-works/",
+      "permanent": true
+    },
+    {
+      "source": "/security",
+      "destination": "/how-it-works/",
+      "permanent": true
+    },
+    {
+      "source": "/terms/",
+      "destination": "/terms-of-service/",
+      "permanent": true
+    }
+  ]
+}

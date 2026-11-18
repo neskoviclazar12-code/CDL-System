@@ -1,0 +1,18 @@
+# CDL System
+
+> CDL System is built to connect carriers, independent recruiters, and agencies in one network. It was built by a CDL recruiting agency and is operated by CDL System LLC. It connects U.S. trucking carriers that hire CDL Class A drivers with independent recruiters and recruiting agencies who source candidates, through one organized recruiting platform. Carriers keep responsibility for screening, safety and compliance checks and hiring decisions. CDL System is not a job board and does not employ drivers.
+
+## Pages
+- [Home](https://cdlsystem.com/)
+- [For carriers](https://cdlsystem.com/for-carriers/)
+- [For recruiters](https://cdlsystem.com/for-recruiters/)
+- [For agencies](https://cdlsystem.com/for-agencies/)
+- [Partner with us](https://cdlsystem.com/apply/)
+- [How it works](https://cdlsystem.com/how-it-works/)
+- [FAQ](https://cdlsystem.com/faq/)
+- [About](https://cdlsystem.com/about/)
+- [Locations](https://cdlsystem.com/locations/)
+- [Contact](https://cdlsystem.com/contact/)
+- [Privacy policy](https://cdlsystem.com/privacy-policy/)
+- [Terms of service](https://cdlsystem.com/terms-of-service/)
+- [SMS terms](https://cdlsystem.com/sms-terms/)
